@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install only production nodeJS dependencies in Docker Image
-RUN npm install --false
+RUN npm install --only=production
 
 # Copy the rest of the application code into the container
 COPY . .
