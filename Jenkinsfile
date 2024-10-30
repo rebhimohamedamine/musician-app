@@ -8,7 +8,7 @@ pipeline {
     environment {
         DOCKER_HUB_CREDENTIALS_ID = 'dockerhub-jenkins-token'
         DOCKER_HUB_REPO = 'mohamedrebhi/projet'
-        VERSION = BUILD_NUMBER  // Use Jenkins BUILD_NUMBER as the version
+        VERSION = "${BUILD_NUMBER}"  // Use Jenkins BUILD_NUMBER as the version
         SONAR_PROJECT_KEY = 'node'
         SONAR_SCANNER_HOME = tool 'SonarQubeScanner'
     }
