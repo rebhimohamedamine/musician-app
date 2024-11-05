@@ -10,7 +10,7 @@ pipeline {
         DOCKER_HUB_REPO = 'mohamedrebhi/projet'
         VERSION = "${BUILD_NUMBER}"  // Use Jenkins BUILD_NUMBER as the version
         SONAR_PROJECT_KEY = 'appnode'
-		SONAR_SCANNER_HOME = tool 'SonarQubeScanner'
+	SONAR_SCANNER_HOME = tool 'SonarQubeScanner'
 
 
     }
@@ -29,7 +29,11 @@ pipeline {
                 }
             }
         }
-
+          stage('Tests'){
+			steps {
+				sh 'npm test'
+			}
+		}
         stage('Install PM2') {
             steps {
                 script {
@@ -37,11 +41,7 @@ pipeline {
                 }
             }
         }
-        stage('Tests'){
-			steps {
-				sh 'npm test'
-			}
-		}
+
         stage('SonarQube Analysis'){
 			steps {
 				withCredentials([string(credentialsId: 'node-app-token', variable: 'SONAR_TOKEN')]) {
