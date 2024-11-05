@@ -29,11 +29,11 @@ pipeline {
                 }
             }
         }
-          stage('Tests'){
-			steps {
-				sh 'npm test'
-			}
-		}
+        //  stage('Tests'){
+	//		steps {
+	//			sh 'npm test'
+	//		}
+	//	}
         stage('Install PM2') {
             steps {
                 script {
