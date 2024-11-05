@@ -9,6 +9,8 @@ pipeline {
         DOCKER_HUB_CREDENTIALS_ID = 'dockerhub-jenkins-token'
         DOCKER_HUB_REPO = 'mohamedrebhi/projet'
         VERSION = "${BUILD_NUMBER}"  // Use Jenkins BUILD_NUMBER as the version
+        SONAR_PROJECT_KEY = 'appnode'
+		SONAR_SCANNER_HOME = tool 'SonarQubeScanner'
 
 
     }
@@ -35,6 +37,27 @@ pipeline {
                 }
             }
         }
+        stage('Tests'){
+			steps {
+				sh 'npm test'
+			}
+		}
+        stage('SonarQube Analysis'){
+			steps {
+				withCredentials([string(credentialsId: 'node-app-token', variable: 'SONAR_TOKEN')]) {
+				   
+					withSonarQubeEnv('SonarQube') {
+						sh """
+                  				${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                  				-Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                    				-Dsonar.sources=. \
+                   				-Dsonar.host.url=http://localhost:9000 \
+                    				-Dsonar.login=${SONAR_TOKEN}
+                    				"""
+					}	
+				}
+			}
+		}
 
         stage('Build Docker Image') {
             steps {
